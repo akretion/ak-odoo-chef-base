@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 #will pull or merge/commit in all child directories or sub-children
 #you can pass the list of directories you want to restrict the operation
 

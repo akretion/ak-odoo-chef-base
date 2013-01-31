@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+#will pull or merge/commit in all child directories or sub-children
+#you can pass the list of directories you want to restrict the operation
+
+bzr_dirs = []
+
+Dir.foreach('.') do |item| #FIXME: we go 2 levels deep; recursive would be better
+  next if item == '.' or item == '..'
+  if File.exists?("#{item}/.bzr")
+    bzr_dirs << item
+  
+  elsif File.directory? item
+    Dir.foreach(item) do |sub_item|
+      next if sub_item == '.' or sub_item == '..'
+      if File.exists?("#{item}/#{sub_item}/.bzr")
+        bzr_dirs << "#{item}/#{sub_item}"
+      end
+    end
+  end
+end
+
+bzr_dirs.each do |dir|
+  if (not ARGV.empty?) && (not ARGV.index(dir))
+    puts "skipping #{dir} because not requested in #{ARGV} options"
+  end
+  puts "***** in dir " + File.expand_path(dir)
+  puts "cd #{File.expand_path(dir)}; bzr pull"
+  puts `cd #{File.expand_path(dir)}; bzr pull`
+end

@@ -1,0 +1,12 @@
+#list of ak aliases
+
+alias ak='knife'
+alias accretion='knife'
+alias ak-agent='chef-client'
+#alias ak-db='backup'
+#TODO ak-server
+alias ak-os-update='/usr/bin/chef-client -c /etc/ak/client.rb -j /etc/ak/node.json'
+alias openerp-prod='/etc/init.d/openerp-prod'
+alias libreoffice-server='/etc/init.d/libreoffice'
+alias sudo='sudo '
+export EDITOR=vim

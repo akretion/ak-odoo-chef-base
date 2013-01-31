@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'rubygems'
+require 'thor'
+require '/usr/local/lib/ak-lib/ak-db-base.rb'
+
+AkTools::CLI::Utility.start

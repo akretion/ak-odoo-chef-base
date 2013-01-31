@@ -1,0 +1,52 @@
+#!/usr/bin/ruby
+#will pull or merge/commit in all child directories or sub-children
+#you can pass the list of directories you want to restrict the operation
+
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: example.rb [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end.parse!
+
+#p options
+#p ARGV
+
+
+bzr_dirs = []
+
+Dir.foreach('.') do |item| #FIXME: we go 2 levels deep; recursive would be better
+  next if item == '.' or item == '..'
+  if File.exists?("#{item}/.bzr")
+    bzr_dirs << item
+  
+  elsif File.directory? item
+    Dir.foreach(item) do |sub_item|
+      next if sub_item == '.' or sub_item == '..'
+
+      if File.exists?("#{item}/#{sub_item}/.bzr")
+        bzr_dirs << "#{item}/#{sub_item}"
+      end
+    end
+  end
+end
+
+bzr_dirs.each do |dir|
+  if (not ARGV.empty?) && (not ARGV.index(dir))
+    puts "skipping #{dir} because not requested in #{ARGV} options"
+  end
+  puts "***** in dir " + File.expand_path(dir)
+  puts "bzr pull -d #{File.expand_path(dir)}"
+  pull_result = `bzr pull -d #{File.expand_path(dir)}` #see 'Backticks' way to rub shell commands
+  if $?.to_i != 0 #&& pull_result.include?('diverged') TODO not robust; second test doesn't work
+    puts "trying merge" #TODO should be more robust!
+    merge_result = `bzr merge -d #{File.expand_path(dir)}`
+    if $?.to_i == 0
+      commit_result = `bzr commit -m '[MERGE]' -d #{File.expand_path(dir)}`
+    end
+  end
+end

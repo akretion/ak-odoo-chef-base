@@ -2,7 +2,7 @@ if node[:platform_version].to_f < 11.10 #installs bzr 2.3 to be able to commit o
 
   apt_repository "bzr-beta" do
     uri "http://ppa.launchpad.net/bzr/beta/ubuntu"
-    distribution node['lsb']['codename']
+    distribution node[:lsb][:codename]
     components ["main"]
     action :add
     notifies :run, "execute[apt-get update-bzr]", :immediately

@@ -31,7 +31,7 @@ default[:openerp][:pip_packages_extra] = [] #easy to customize with Chef Solo
 
 default[:simple_unix_user] = false
 default[:openerp][:group_unix]                            = simple_unix_user || "erp_group"
-default[:openerp][:dev][:unix_user]                       = simple_unix_user || (node['vagrant'] && "vagrant" || "erp_dev")
+default[:openerp][:dev][:unix_user]                       = simple_unix_user || (node[:vagrant] && "vagrant" || "erp_dev")
 default[:openerp][:dev][:authorized_ssh_key]              = ""
 
 default[:postgresql][:install] = "distro"

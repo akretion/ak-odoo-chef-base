@@ -11,6 +11,7 @@ if node[:postgresql][:install] == "distro"
     lang = "en_US" if lang.empty?
     lang_enc = "#{lang}.UTF-8"
     ENV['LANGUAGE'] = ENV['LANG'] = ENV['LC_ALL'] = lang_enc
+    `rm /etc/default/locale; echo LANG="#{lang_enc}" >> /etc/default/locale`
     `locale-gen #{lang_enc}`
     `dpkg-reconfigure locales`
   end

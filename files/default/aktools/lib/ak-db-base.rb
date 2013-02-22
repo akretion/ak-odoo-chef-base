@@ -42,11 +42,15 @@ module AkTools
       include Thor::Actions
 
       desc 'load', "Load a file into a new database"
-      def load(name, file, role, tmp_path="/tmp")
+      def load(file, role, name=nil, db_name=nil, prefix=nil, tmp_path="/tmp")
         file = AkTools.find_file(file, tmp_path)
+        unless name
+          name = "#{prefix}#{db_name.gsub("test", "").gsub("prod", "").gsub(prefix, "")}_#{file[0..-4]}"
+        end
         `createdb #{name} --username=#{role}`
         `psql #{name} < #{file} --username=#{role}`
       end
+
     end
   end
 end

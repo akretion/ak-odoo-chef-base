@@ -19,7 +19,7 @@ module AkTools
         end
       end
     elsif file.end_with?(".sql")
-      return file
+      return file, file
     else
       if file.index("@")
         user_host = file.split("/")[0]

@@ -40,6 +40,7 @@ end
 if File.exists?("/usr/local/rvm") #FIXME this is a brittle test for RVM installation
   include_recipe "ak-openerp::rvm"
   rvm_global_gem "thor"
+  rvm_global_gem "open4"
 
   rvm_wrapper "ak" do
     ruby_string   node[:rvm][:default_ruby]
@@ -47,6 +48,7 @@ if File.exists?("/usr/local/rvm") #FIXME this is a brittle test for RVM installa
   end
 else
   gem_package "thor"
+  gem_package "open4"
 end
 
 ['ak-db-base.rb'].each do |file|

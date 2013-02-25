@@ -66,7 +66,7 @@ module AkTools
         `psql #{name} < #{sql_file} --username=#{role}`
       end
 
-      
+
       desc 'load_s3 db_user', "Load backup from Amazon s3"
       def load_s3(db_user="vagrant")
         unless ::File.exist?("#{::File.expand_path("~")}/.s3cfg")
@@ -99,5 +99,4 @@ module AkTools
 
     end
   end
-end
 end

@@ -47,19 +47,15 @@ module AkTools
       example1: ak-db load path/file.sql db_user
       example2: ak-db load backups_folder db_user
       example3: ak-db load erp_dev@foo.erp.akretion.com/home/erp_dev/erp/staging/backups db_user"
-      def load(file, role, name=nil, db_name=nil, prefix="dev_", tmp_path="/tmp")
+      def load(file, role, name=nil, db_name=nil, prefix="dev_", tmp_path="~/.tmp")
         res = AkTools.find_file(file, tmp_path)
         sql_file = res[0]
         unless name
-          if db_name
-            name = "#{prefix}#{db_name.gsub("test_", "").gsub("prod_", "").gsub(prefix, "")}_#{sql_file[0..-4]}"
-          else
-            name = "#{prefix}#{sql_file.split("/").last.gsub(".sql", "").gsub("test_", "").gsub("prod_", "").gsub(prefix, "")}"
-            if file.index(/_20[0-9][0-9]/) && !name.index(/_20[0-9][0-9]/)
-              i = file.index(/_20[0-9][0-9]/)
-              stamp = file[i + 1 .. i + 10]
-              name = "#{name}_#{stamp}"
-            end
+          name = "#{prefix}#{sql_file.split("/").last.gsub(".sql", "").gsub("test_", "").gsub("prod_", "").gsub(prefix, "")}"
+          if file.index(/_20[0-9][0-9]/) && !name.index(/_20[0-9][0-9]/)
+            i = file.index(/_20[0-9][0-9]/)
+            stamp = file[i + 1 .. i + 13]
+            name = "#{name}_#{stamp}"
           end
         end
         `createdb #{name} --username=#{role}`

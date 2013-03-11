@@ -1,6 +1,7 @@
 (node[:openerp][:dev_servers] || []).each do |name, remote|
+  target_dir = remote.split("/").last
   execute "rsync-#{name}" do
-    command "rsync -az #{remote} #{name}"
+    command "rsync -az #{remote} . ; mv  #{target_dir} #{name}"
     creates "/home/#{node[:openerp][:dev][:unix_user]}/#{name}"
     cwd "/home/#{node[:openerp][:dev][:unix_user]}"
     user node[:openerp][:dev][:unix_user]

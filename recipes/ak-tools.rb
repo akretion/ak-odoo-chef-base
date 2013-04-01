@@ -37,8 +37,7 @@ end
   end
 end
 
-if File.exists?("/usr/local/rvm") #FIXME this is a brittle test for RVM installation
-  include_recipe "ak-openerp::rvm"
+if defined?(RVM)
   rvm_global_gem "thor"
   rvm_global_gem "open4"
 

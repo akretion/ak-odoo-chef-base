@@ -1,3 +1,9 @@
+if node[:simple_unix_user] && ! ::File.exist?("/home/#{node[:simple_unix_user]}")
+  raise "Error! your node is configured with node[:simple_unix_user]=#{node[:simple_unix_user]}
+  \nbut this user home directory doesn't exist. Create it before or change your configuration."
+end
+
+
 include_recipe "ak-tools::server"
 group node[:openerp][:group_unix]
 

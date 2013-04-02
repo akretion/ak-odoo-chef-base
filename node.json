@@ -1,0 +1,6 @@
+{
+  "simple_unix_user": "youruser",
+  "openerp": {
+  },
+  "run_list": [ "recipe[ak-openerp-base::default]" ]
+}

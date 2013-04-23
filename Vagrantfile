@@ -73,6 +73,7 @@ Vagrant::Config.run do |config|
           :prod => {"unix_user" => "vagrant"},
           :dev => {"unix_user" => "vagrant"},
 #          :dev_servers => {:dev1 => user@host:path}
+#          :demo_servers => {:demo1 => {:server => 'lp:~ocb/ocb-server/rs-ocb-70', :addons => 'lp:~ocb/ocb-addons/rs-ocb-70', :web => 'lp:ocb-web'}}
         },
       }
   end

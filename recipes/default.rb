@@ -65,4 +65,5 @@ end
 include_recipe "ak-openerp-base::ak-tools"
 chef_gem "ooor" #TODO put in path till RVM is installed eventually
 
+include_recipe "ak-openerp-base::demo_servers"
 include_recipe "ak-openerp-base::dev_servers"

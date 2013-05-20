@@ -14,11 +14,11 @@
     end
   end
 
-  addons_path = parts.keys.reject{|i| i.to_s == "server"}.map{|i| "../#{i.to_s == "web" ? "web/addons" : i}"}.join(",")
-  execute "run-demo-#{name}" do
-    command "./openerp-server --addons-path=#{addons_path}"
-    cwd "/home/#{node[:openerp][:dev][:unix_user]}/#{name}/server"
-    user node[:openerp][:dev][:unix_user]
-  end
+#  addons_path = parts.keys.reject{|i| i.to_s == "server"}.map{|i| "../#{i.to_s == "web" ? "web/addons" : i}"}.join(",")
+#  execute "run-demo-#{name}" do
+#    command "./openerp-server --addons-path=#{addons_path}"
+#    cwd "/home/#{node[:openerp][:dev][:unix_user]}/#{name}/server"
+#    user node[:openerp][:dev][:unix_user]
+#  end
 
 end

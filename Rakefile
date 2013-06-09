@@ -14,11 +14,4 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-begin
-  require 'jamie/rake_tasks'
-  Jamie::RakeTasks.new
-rescue LoadError
-  puts ">>>>> Jamie gem not loaded, omitting tasks" unless ENV['CI']
-end
-
 task :default => [:foodcritic, :unit]

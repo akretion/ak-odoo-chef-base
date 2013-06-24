@@ -28,7 +28,7 @@ execute "source_profile" do
   user "root"
 end
 
-['bzr_pull_all', 'bzr_push_all', 'bzr_update_all', 'ak-db'].each do |file|
+['bzr_pull_all', 'bzr_push_all', 'bzr_update_all', 'ak-db', 'ak-code'].each do |file|
   cookbook_file "/usr/local/bin/#{file}" do
     source "aktools/bin-server/#{file}"
     owner "root"
@@ -50,7 +50,7 @@ else
   gem_package "open4"
 end
 
-['ak-db-base.rb'].each do |file|
+['ak-db-base.rb', 'ak-code-base.rb'].each do |file|
   cookbook_file "/usr/local/lib/ak-lib/#{file}" do
     source "aktools/lib/#{file}"
     owner "root"

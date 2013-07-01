@@ -3,6 +3,6 @@
 
 require 'rubygems'
 require 'thor'
-require '/usr/local/lib/ak-lib/ak-db-base.rb'
+require '/usr/local/lib/akretion/db/base.rb'
 
-AkTools::CLI::Utility.start
+Akretion::Db::CLI.start

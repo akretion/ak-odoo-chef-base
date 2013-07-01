@@ -5,50 +5,50 @@ require "rubygems"
 require 'thor'
 require 'open4'
 
-module AkTools
-  def self.find_file(file, tmp_path="~/.tmp")
-    if file.end_with?(".tar")
-      `mkdir -p #{tmp_path}`
-      result = `tar -xvf #{file} -C #{tmp_path}`
-      result.split("\n").each do |line|
-        if line.end_with?(".sql.gz")
-          puts "gunzip #{tmp_path}/#{line} --force"
-          `gunzip #{tmp_path}/#{line} --force`
-          return "#{tmp_path}/#{line.gsub(".gz", "")}", file
-        elsif line.end_with?(".sql")
-          return "#{tmp_path}/#{line}", file
-        end
-      end
-    elsif file.end_with?(".sql")
-      return file, file
-    else
-      if file.index("@")
-        user_host = file.split("/")[0]
-        path = file.gsub(user_host, "")
-        list = `ssh #{user_host} 'ls -t #{path}'`
-        puts "found the following archives:\n #{list}"
-        puts "downloading the last one: #{list.split(" ")[0]}; this may take a while..."
-        puts "scp -rC #{user_host}:#{path}/#{list.split(" ")[0]} #{tmp_path}/bk"
-        `scp -rC #{user_host}:#{path}/#{list.split(" ")[0]} #{tmp_path}/bk`
-        folder = "#{tmp_path}/bk"
-      else
-        list = `ls -t #{file}`
-        folder = "#{file}/#{list.split(" ")[0]}"
-      end
-      return find_file(folder, tmp_path)
-    end
-  end
+module Akretion
+  module Db
 
-  module CLI
-    class Utility < Thor
-      include Thor::Actions
+    def self.find_file(file, tmp_path="~/.tmp")
+      if file.end_with?(".tar")
+        `mkdir -p #{tmp_path}`
+        result = `tar -xvf #{file} -C #{tmp_path}`
+        result.split("\n").each do |line|
+          if line.end_with?(".sql.gz")
+            puts "gunzip #{tmp_path}/#{line} --force"
+            `gunzip #{tmp_path}/#{line} --force`
+            return "#{tmp_path}/#{line.gsub(".gz", "")}", file
+          elsif line.end_with?(".sql")
+            return "#{tmp_path}/#{line}", file
+          end
+        end
+      elsif file.end_with?(".sql")
+        return file, file
+      else
+        if file.index("@")
+          user_host = file.split("/")[0]
+          path = file.gsub(user_host, "")
+          list = `ssh #{user_host} 'ls -t #{path}'`
+          puts "found the following archives:\n #{list}"
+          puts "downloading the last one: #{list.split(" ")[0]}; this may take a while..."
+          puts "scp -rC #{user_host}:#{path}/#{list.split(" ")[0]} #{tmp_path}/bk"
+          `scp -rC #{user_host}:#{path}/#{list.split(" ")[0]} #{tmp_path}/bk`
+          folder = "#{tmp_path}/bk"
+        else
+          list = `ls -t #{file}`
+          folder = "#{file}/#{list.split(" ")[0]}"
+        end
+        return find_file(folder, tmp_path)
+      end
+    end
+
+    class CLI < ::Backup::CLI
 
       desc 'load file role [name]', "Load a file into a new database (also see load_s3)
       example1: ak-db load path/file.sql db_user
       example2: ak-db load backups_folder db_user
       example3: ak-db load erp_dev@foo.erp.akretion.com/home/erp_dev/erp/staging/backups db_user"
       def load(file, role, name=nil, db_name=nil, prefix="dev_", tmp_path="~/.tmp")
-        res = AkTools.find_file(file, tmp_path)
+        res = Akretion::Db.find_file(file, tmp_path)
         sql_file = res[0]
         unless name
           name = "#{prefix}#{sql_file.split("/").last.gsub(".sql", "").gsub("test_", "").gsub("prod_", "").gsub(prefix, "")}"

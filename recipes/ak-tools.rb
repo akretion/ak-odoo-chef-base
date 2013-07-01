@@ -28,15 +28,6 @@ execute "source_profile" do
   user "root"
 end
 
-['bzr_pull_all', 'bzr_push_all', 'bzr_update_all', 'ak-db', 'ak-code'].each do |file|
-  cookbook_file "/usr/local/bin/#{file}" do
-    source "aktools/bin-server/#{file}"
-    owner "root"
-    group "root"
-    mode "0755"
-  end
-end
-
 if defined?(RVM)
   rvm_global_gem "thor"
   rvm_global_gem "open4"
@@ -50,14 +41,24 @@ else
   gem_package "open4"
 end
 
-['ak-db-base.rb', 'ak-code-base.rb'].each do |file|
-  cookbook_file "/usr/local/lib/ak-lib/#{file}" do
-    source "aktools/lib/#{file}"
-    owner "root"
-    group "root"
-    mode "0755"
-  end
+remote_directory "/usr/local/lib/akretion" do
+  source "aktools/lib/akretion"
+  files_owner "root"
+  files_group "root"
+  files_mode "0755"
+  owner "nobody"
+  mode 00755
 end
+
+remote_directory "/usr/local/bin" do
+  source "aktools/bin-server"
+  files_owner "root"
+  files_group "root"
+  files_mode "0755"
+  owner "nobody"
+  mode 00755
+end
+
 
 #S3 utilities:
 package "libxml2-dev"

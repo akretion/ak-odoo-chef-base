@@ -2,7 +2,6 @@
 
 require "rubygems"
 require 'thor'
-require 'open4'
 
 module Akretion
   module Db
@@ -63,7 +62,7 @@ module Akretion
 
 
       desc 'load_s3 db_user', "Load backup from Amazon s3"
-      def load_s3(db_user="vagrant")
+      def load_s3(db_user="vagrant") #TODO merge cmd with load with a s3 filename or option, but keep actual method extracted
         unless ::File.exist?("#{::File.expand_path("~")}/.s3cfg")
           puts "s3cmd configuration file ~/.s3cfg not found!"
           puts "Please you should first configure s3cmd with the following command:\ns3cmd --configure"
@@ -85,10 +84,7 @@ module Akretion
         archive = last_archive if archive.strip() == ""
         `mkdir -p ~/.tmp`
         stamp = archive.split("/").last[0..12]
-        cmd = "s3cmd --progress get #{archive}prod_daily.tar ~/.tmp/prod_daily_#{stamp}.tar --force 2>&1"
-        status = Open4.popen4(cmd) do |pid, stdin, stdout, stderr|
-          stdout.each {|line| puts line }
-        end
+        system "s3cmd --progress get #{archive}prod_daily.tar ~/.tmp/prod_daily_#{stamp}.tar --force 2>&1"
         invoke :load, ["~/.tmp/prod_daily_#{stamp}.tar", db_user]
       end
 

@@ -2,7 +2,6 @@
 
 require "rubygems"
 require 'thor'
-require 'open4'
 require 'etc'
 
 module Akretion
@@ -117,7 +116,7 @@ module Akretion
       desc 'clone remote target', "copy server"
       def clone(remote, target)
         `mkdir #{target}`
-        exec "rsync -az #{remote}/src #{target}"
+        system "rsync -az #{remote}/src #{target}"
         `mkdir #{target}/config`
         `rsync -az #{remote}/config/server.conf #{target}/config`
       end
@@ -130,10 +129,10 @@ module Akretion
         branches.each do |branch|
           if ::File.directory?("#{path}/src/#{branch}/.bzr")
             puts "\npulling #{path}/src/#{branch}"
-            exec "bzr pull #{path}/src/#{branch}"
+            system "bzr pull #{path}/src/#{branch}"
           elsif ::File.directory?("#{path}/src/#{branch}/.git")
             puts "\npulling #{path}/src/#{branch}"
-            exec "git pull #{path}/src/#{branch}"
+            system "git pull #{path}/src/#{branch}"
           end
         end
       end

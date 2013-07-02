@@ -30,15 +30,12 @@ end
 
 if defined?(RVM)
   rvm_global_gem "thor"
-  rvm_global_gem "open4"
-
   rvm_wrapper "ak" do
     ruby_string   node[:rvm][:default_ruby]
     binary        "chef-client"
   end
 else
   gem_package "thor"
-  gem_package "open4"
 end
 
 remote_directory "/usr/local/lib/akretion" do

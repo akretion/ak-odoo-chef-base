@@ -163,8 +163,15 @@ module Akretion
       end
       
       desc 'addons_path', 'addons_path'
+      method_option :complete, :type => :boolean, :aliases => "-c"
       def addons_path
-        puts Code.get_addons_path
+        addons = Code.get_addons_path
+        if options[:complete]
+          path = Code.get_server_path()
+          puts addons.map{|i| "#{path}/src/#{i}"}.join(",")
+        else
+          puts addons
+        end
       end
 
     end

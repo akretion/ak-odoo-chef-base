@@ -11,21 +11,21 @@ define :postgresql_user, :action => :create do
     end
 
     sql = "#{params[:name]} #{privileges} #{password}"
-    exists = "psql -c 'SELECT usename FROM pg_catalog.pg_user' | grep '^ #{params[:name]}$'"
+    exists = "/usr/bin/psql -c 'SELECT usename FROM pg_catalog.pg_user' | grep '^ #{params[:name]}$'"
 
     execute "alter postgresql user #{params[:name]}" do
       user "postgres"
-      command "psql -c \"ALTER ROLE #{sql}\""
+      command "/usr/bin/psql -c \"ALTER ROLE #{sql}\""
       only_if exists, :user => "postgres"
     end
 
     execute "create postgresql user #{params[:name]}" do
       user "postgres"
-      command "psql -c \"CREATE ROLE #{sql}\""
+      command "/usr/bin/psql -c \"CREATE ROLE #{sql}\""
       not_if exists, :user => "postgres"
     end
   when :drop
-    execute "psql -c 'DROP ROLE IF EXISTS #{params[:name]}'" do
+    execute "/usr/bin/psql -c 'DROP ROLE IF EXISTS #{params[:name]}'" do
       user "postgres"
     end
   end

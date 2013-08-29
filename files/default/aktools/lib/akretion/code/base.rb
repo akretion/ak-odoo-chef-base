@@ -17,7 +17,7 @@ module Akretion
           false
         end
       end
-      
+
       def get_server_path_from_path(path=Dir.pwd)
         if is_server_dir(path)
           return path
@@ -31,8 +31,8 @@ module Akretion
       def get_cmd_user
         Etc.getpwuid(Process.uid).name
       end
-      
-      def get_server_path
+
+      def get_server_path(server='prod') #TODO use that param
         path = get_server_path_from_path()
         if path
           return path
@@ -46,19 +46,19 @@ module Akretion
           return "/home/erp_super/erp/prod"
         end
       end
-      
+
       def get_src_components(path=get_server_path())
         Dir.new("#{path}/src").entries().select do |item|
           ::File.directory?("#{path}/src/#{item}") && item != "." && item != ".."
         end
       end
-      
+
       def get_branches(path=get_server_path())
         get_src_components(path).select do |item|
           ::File.directory?("#{path}/src/#{item}/.bzr") || ::File.directory?("#{path}/src/#{item}/.git")
         end
       end
-      
+
       def extract_addons_dir(path)
         Dir.new(path).entries.each do |item_l1|
           if item_l1 != "." && item_l1 != ".."
@@ -75,7 +75,7 @@ module Akretion
         end
         return false
       end
-      
+
       def get_addons_path(path=get_server_path())
         entries = get_src_components(path)
         addons = []
@@ -83,7 +83,7 @@ module Akretion
           dirs = extract_addons_dir("#{path}/src/#{dir}")
           addons += dirs if dirs
         end
-        
+
         #now re-ordering to ensure we can override modules:
         if addons.index("web")
           addons.delete("web")
@@ -142,26 +142,27 @@ module Akretion
         puts "TODO"
       end
 
+
       desc 'serve', 'serve'
       def serve(*opts)
         path = Code.get_server_path()
         puts "assuming server located at #{path}"
         addons_path = Code.get_addons_path(path).map{|i| "#{path}/src/#{i}"}.join(",")
-        puts  "#{path}/src/server/openerp-server --addons-path=#{addons_path} -c #{path}/config/server.conf #{opts.join(" ")}"
-        exec "#{path}/src/server/openerp-server --addons-path=#{addons_path} -c #{path}/config/server.conf #{opts.join(" ")}"
+        puts  "#{path}/src/server/openerp-server --addons-path=#{addons_path} -c #{path}/config/server.conf --unaccent #{opts.join(" ")}"
+        exec "#{path}/src/server/openerp-server --addons-path=#{addons_path} -c #{path}/config/server.conf --unaccent #{opts.join(" ")}"
       end
-      
+
       desc 'debug', 'debug'
       def debug(*opts)
         serve(opts.join(" ") + " --debug")
       end
-      
+
       desc 'console', 'interactive console'
       def console
         puts "TODO"
         #TODO cf http://bazaar.launchpad.net/~anybox/anybox.recipe.openerp/trunk/view/head:/anybox/recipe/openerp/startup.py
       end
-      
+
       desc 'addons_path', 'addons_path'
       method_option :complete, :type => :boolean, :aliases => "-c"
       def addons_path
@@ -177,3 +178,4 @@ module Akretion
     end
   end
 end
+

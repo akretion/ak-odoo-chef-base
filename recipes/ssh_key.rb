@@ -6,11 +6,10 @@ include_recipe "ak-openerp-base::default"
 
   unix_user = node[:openerp][user][:unix_user]
 
-  unless ::File.exist?("/home/#{unix_user}/.ssh/id_rsa")
-    execute "ssh-keygen -f /home/#{unix_user}/.ssh/id_rsa -N ''" do
-      creates "/home/#{unix_user}/.ssh/id_rsa"
-      user unix_user
-    end
+  execute "ssh-keygen -f /home/#{unix_user}/.ssh/id_rsa -N ''" do
+    creates "/home/#{unix_user}/.ssh/id_rsa"
+    user unix_user
+    not_if ::File.exist?("/home/#{unix_user}/.ssh/id_rsa")
   end
 
   template "/home/#{unix_user}/.ssh/authorized_keys" do

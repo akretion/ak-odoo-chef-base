@@ -56,10 +56,14 @@ module Akretion
             name = "#{name}_#{stamp}"
           end
         end
-        `createdb #{name} --username=#{role}`
-        `psql #{name} < #{sql_file} --username=#{role}`
+        if sql_file.index("_temp") #detection of -Fc format
+          `createdb #{name} --username=#{role}`
+          `pg_restore -d #{name} #{sql_file} --username=#{role}`
+        else
+          `createdb #{name} --username=#{role}`
+          `psql #{name} < #{sql_file} --username=#{role}`
+        end
       end
-
 
       desc 'load_s3 db_user', "Load backup from Amazon s3"
       def load_s3(db_user="vagrant") #TODO merge cmd with load with a s3 filename or option, but keep actual method extracted

@@ -113,10 +113,18 @@ module Akretion
     class CLI < Thor
       include Thor::Actions
 
+      method_option :light,           :type => :boolean, :default => false, :aliases => '-l'
       desc 'clone remote target', "copy server"
       def clone(remote, target)
         `mkdir #{target}`
-        system "rsync -az #{remote}/src #{target}"
+        if options[:light]
+          system "rsync -az #{remote}/src #{target} --exclude 'addons' --exclude 'server' --exclude 'web'"
+          %w[addons server web].each do |folder|
+            `ln -s #{remote}/src/#{folder} #{target}/src/#{folder}`
+          end
+        else
+          system "rsync -az #{remote}/src #{target}"
+        end
         `mkdir #{target}/config`
         `rsync -az #{remote}/config/server.conf #{target}/config`
       end

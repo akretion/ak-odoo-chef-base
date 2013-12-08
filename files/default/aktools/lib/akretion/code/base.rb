@@ -113,20 +113,20 @@ module Akretion
     class CLI < Thor
       include Thor::Actions
 
-      method_option :light,           :type => :boolean, :default => false, :aliases => '-l'
-      desc 'clone remote target', "copy server"
-      def clone(remote, target)
-        `mkdir #{target}`
-        if options[:light]
-          system "rsync -az #{remote}/src #{target} --exclude 'addons' --exclude 'server' --exclude 'web'"
-          %w[addons server web].each do |folder|
-            `ln -s #{remote}/src/#{folder} #{target}/src/#{folder}`
+      method_option :hard,           :type => :boolean, :default => false, :aliases => '-h'
+      desc 'clone master slave', "copy server"
+      def clone(master, slave) #TODO wire branch.conf or .git/config to the master
+        `mkdir -p #{slave}`
+        unless options[:hard]
+          system "rsync -az #{master}/src #{slave} --exclude 'addons' --exclude 'server' --exclude 'web'"
+          %w[addons server web].each do |folder| #TODO option to pass a specific symlink master
+            `ln -s #{master}/src/#{folder} #{slave}/src/#{folder}`
           end
         else
-          system "rsync -az #{remote}/src #{target}"
+          system "rsync -az #{master}/src #{slave}"
         end
-        `mkdir #{target}/config`
-        `rsync -az #{remote}/config/server.conf #{target}/config`
+        `mkdir #{slave}/config`
+        `rsync -az #{master}/config/server.conf #{slave}/config`
       end
 
       desc 'pull', 'pull'

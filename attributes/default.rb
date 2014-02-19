@@ -26,7 +26,7 @@ default[:ak_tools][:apt_packages] += %w[
   poppler-utils
 ]
 
-default[:openerp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2] #TODO pin versions?
+default[:openerp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?
 default[:openerp][:pip_packages_extra] = [] #easy to customize with Chef Solo
 
 default[:simple_unix_user] = false

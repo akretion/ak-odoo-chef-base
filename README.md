@@ -15,16 +15,24 @@ Main recipe
 
 make sure you have ruby 1.9.3+ installed, ideally with rvm (else use sudo instead of rvmsudo in the following).
 
-#### 1) with Vagrant
+#### 1) with Vagrant and lxc
 
-    git clone https://github.com/akretion/ak-openerp-base.git
-    cd ak-openerp-base
-    rvmsudo gem install vagrant --no-ri --no-rdoc
-    rvmsudo gem install berkshelf-vagrant --no-ri --no-rdoc
+* sudo apt-get install lxc
+* sudo apt-get install redir
+* install Vagrant 1.5+ from http://www.vagrantup.com/downloads.html
+* vagrant plugin install vagrant-lxc --plugin-version 1.0.0.alpha.1  #read more here https://github.com/fgrehm/vagrant-lxc
+
+```
+git clone https://github.com/akretion/ak-openerp-base.git
+cd ak-openerp-base
+berks vendor cookbooks
+```
 
 update the node attributes in the Vagrantfile file
 
-    vagrant up
+```
+vagrant up
+```
 
 done!
 

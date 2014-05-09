@@ -28,16 +28,6 @@ execute "source_profile" do
   user "root"
 end
 
-if defined?(RVM)
-  rvm_global_gem "thor"
-  rvm_wrapper "ak" do
-    ruby_string   node[:rvm][:default_ruby]
-    binary        "chef-client"
-  end
-else
-  gem_package "thor"
-end
-
 remote_directory "/usr/local/lib/akretion" do
   source "aktools/lib/akretion"
   files_owner "root"

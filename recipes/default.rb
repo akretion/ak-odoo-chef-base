@@ -20,7 +20,7 @@ unless node[:simple_unix_user]
   include_recipe "ak-openerp-base::ssh_key"
   node.default[:ak_tools][:product_name] = "Akretion dev server for #{node[:simple_unix_user]}"
 end
-#chef_gem "ooor" #TODO put in path till RVM is installed eventually
+#chef_gem "ooor"
 
 include_recipe "ak-openerp-base::demo_servers"
 include_recipe "ak-openerp-base::dev_servers"

@@ -6,11 +6,18 @@ if node[:simple_unix_user] && ! ::File.exist?("/home/#{node[:simple_unix_user]}"
 end
 
 include_recipe "ak-tools::server"
+include_recipe "ak-openerp-base::ak-tools"
 group node[:openerp][:group_unix]
 
 include_recipe "ak-openerp-base::python"
-include_recipe "ak-openerp-base::bzr"
-include_recipe "ak-openerp-base::ak-tools"
+
+include_recipe "ak-openerp-base::git"
+
+include_recipe "ak-bzr::default"
+bzr_user_conf do
+  owner node[:openerp][:dev][:unix_user] 
+  group node[:openerp][:group_unix]
+end
 
 if node[:postgresql][:install] == "distro"
   include_recipe "ak-openerp-base::postgresql"

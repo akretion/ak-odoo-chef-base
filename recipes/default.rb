@@ -14,19 +14,23 @@ include_recipe "ak-openerp-base::python"
 include_recipe "ak-openerp-base::git"
 
 include_recipe "ak-bzr::default"
-bzr_user_conf do
-  owner node[:openerp][:dev][:unix_user] 
-  group node[:openerp][:group_unix]
+
+if ::File.exist?("/home/#{node[:openerp][:dev][:unix_user]}")
+  bzr_user_conf do
+    owner node[:openerp][:dev][:unix_user] 
+    group node[:openerp][:group_unix]
+  end
+
+  unless node[:simple_unix_user]
+    include_recipe "ak-openerp-base::ssh_key"
+    node.default[:ak_tools][:product_name] = "Akretion dev server for #{node[:simple_unix_user]}"
+  end
 end
 
 if node[:postgresql][:install] == "distro"
   include_recipe "ak-openerp-base::postgresql"
 end
 
-unless node[:simple_unix_user]
-  include_recipe "ak-openerp-base::ssh_key"
-  node.default[:ak_tools][:product_name] = "Akretion dev server for #{node[:simple_unix_user]}"
-end
 #chef_gem "ooor"
 
 include_recipe "ak-openerp-base::demo_servers"

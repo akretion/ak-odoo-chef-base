@@ -8,7 +8,11 @@ unless ENV['LANG'].end_with?("UTF-8") || node[:simple_unix_user]
   `dpkg-reconfigure locales`
 end
 
-if node[:postgresql][:version] == "9.2" && node[:platform_version].to_f > 11.10
+if node[:platform_version].to_f >= 14.04
+  node.set[:postgresql][:version] = "9.3" # we will always want 9.3 if distro package available, right?
+  package "postgresql-9.3"
+  
+elsif node[:postgresql][:version] == "9.2" && node[:platform_version].to_f > 11.10
 
   apt_repository "postgresql-9.2" do
     uri "http://ppa.launchpad.net/pitti/postgresql/ubuntu"

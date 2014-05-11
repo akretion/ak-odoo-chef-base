@@ -14,6 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+#  config.berkshelf.enabled = true
   # The path to the Berksfile to use with Vagrant Berkshelf
   # config.berkshelf.berksfile_path = "./Berksfile"
 
@@ -72,6 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, :path => "install_chef.sh"
  
   config.vm.provision :chef_solo do |chef|
+#    chef.log_level = :debug
     chef.add_recipe 'ak-openerp-base::default'
     chef.json = {
         :postgresql => {:version => '9.2'},

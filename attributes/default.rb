@@ -27,7 +27,8 @@ default[:ak_tools][:apt_packages] += %w[
 ]
 
 default[:openerp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?
-default[:openerp][:pip_packages_extra] = [] #easy to customize with Chef Solo
+default[:openerp][:pip_packages_extra] = [] # easy to customize with Chef Solo
+default[:openerp][:pip_packages_env] = [] # environment wise python packages
 
 default[:simple_unix_user] = false
 default[:openerp][:group_unix]                            = simple_unix_user || "erp_group"

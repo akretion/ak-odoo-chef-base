@@ -1,3 +1,7 @@
+include_recipe "ak-openerp-base::git" # monkey patch / extension of the default git provider
+
+
+
 if node[:simple_unix_user] && ! ::File.exist?("/home/#{node[:simple_unix_user]}")
   raise "Error! your node is configured with node[:simple_unix_user]='#{node[:simple_unix_user]}'
   but this user home directory doesn't exist. Did you forget to update your simple_unix_user in
@@ -10,8 +14,6 @@ include_recipe "ak-openerp-base::ak-tools"
 group node[:openerp][:group_unix]
 
 include_recipe "ak-openerp-base::python"
-
-include_recipe "ak-openerp-base::git"
 
 include_recipe "ak-bzr::default"
 

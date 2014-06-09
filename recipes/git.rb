@@ -1,9 +1,9 @@
 package "git"
 
 class ::Chef::Resource::Scm
-  def force_branch(arg=nil)
+  def branch_hint(arg=nil)
     set_or_return(
-          :force_branch,
+          :branch_hint,
           arg,
           :kind_of => String
     )
@@ -29,10 +29,10 @@ class ::Chef::Provider::Git
       # NOTE, with the following we however won't be able to specify a commit on a non master branch
       # unless we do that kind of thing may be http://stackoverflow.com/questions/2706797/finding-what-branch-a-commit-came-from
       # so for now we use the force_branch attribute to make this explicit
-      if @new_resource.force_branch
-        args << "-b #{@new_resource.force_branch}"
+      if @new_resource.branch_hint
+        args << "-b #{@new_resource.branch_hint}"
       else
-        args << "-b #{@new_resource.revision}" if @new_resource.revision && !sha_hash?(@new_resource.revision)
+        args << "-b #{@new_resource.revision}" if @new_resource.revision && !sha_hash?(@new_resource.revision) && @new_resource.revision != 'HEAD'
       end
 
       Chef::Log.info "#{@new_resource} cloning repo #{@new_resource.repository} to #{@new_resource.destination}"

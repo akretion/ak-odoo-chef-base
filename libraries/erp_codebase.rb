@@ -33,8 +33,7 @@ class Chef
 
       def action_sync
         @scm_provider.run_action(:sync)
-        cp = ConfigParser.new('/home/erp_super/test/buildout.cfg')
-        raise "#{cp.inspect}"
+        cp = ConfigParser.new("#{@new_resource.destination}/buildout.cfg")
       end
 
     end

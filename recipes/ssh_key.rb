@@ -1,4 +1,4 @@
-include_recipe "ak-openerp-base::default"
+include_recipe "ak-odoo-chef-base::default"
 
 #Unless ssh is already set up (possibly because of the virtualization host machine), generates ssh keys for the user dev and prod and super user and also add ssh authorized key
 

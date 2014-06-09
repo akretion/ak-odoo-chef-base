@@ -1,4 +1,4 @@
-include_recipe "ak-openerp-base::git" # monkey patch / extension of the default git provider
+include_recipe "ak-odoo-chef-base::git" # monkey patch / extension of the default git provider
 
 
 
@@ -10,10 +10,10 @@ if node[:simple_unix_user] && ! ::File.exist?("/home/#{node[:simple_unix_user]}"
 end
 
 include_recipe "ak-tools::server"
-include_recipe "ak-openerp-base::ak-tools"
+include_recipe "ak-odoo-chef-base::ak-tools"
 group node[:openerp][:group_unix]
 
-include_recipe "ak-openerp-base::python"
+include_recipe "ak-odoo-chef-base::python"
 
 include_recipe "ak-bzr::default"
 
@@ -24,16 +24,16 @@ if ::File.exist?("/home/#{node[:openerp][:dev][:unix_user]}")
   end
 
   unless node[:simple_unix_user]
-    include_recipe "ak-openerp-base::ssh_key"
+    include_recipe "ak-odoo-chef-base::ssh_key"
     node.default[:ak_tools][:product_name] = "Akretion dev server for #{node[:simple_unix_user]}"
   end
 end
 
 if node[:postgresql][:install] == "distro"
-  include_recipe "ak-openerp-base::postgresql"
+  include_recipe "ak-odoo-chef-base::postgresql"
 end
 
 #chef_gem "ooor"
 
-include_recipe "ak-openerp-base::demo_servers"
-include_recipe "ak-openerp-base::dev_servers"
+include_recipe "ak-odoo-chef-base::demo_servers"
+include_recipe "ak-odoo-chef-base::dev_servers"

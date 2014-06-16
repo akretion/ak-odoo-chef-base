@@ -7,23 +7,15 @@ default[:ak_tools][:product_name] = "OpenERP Akretion demo/dev server!
 #  python-software-properties
 default[:ak_tools][:apt_packages] += %w[
   python
-  python-psycopg2
-  python-reportlab
-  python-tz
-  python-mako
-  python-pychart
-  python-pydot
-  python-lxml
-  python-vobject
-  python-pip
-  python-pybabel
-  python-simplejson
-  python-dateutil
-  python-openid
-  python-imaging
   python-dev
   ghostscript
   poppler-utils
+  libxml2-dev
+  libxslt1-dev
+  libldap2-dev
+  libsasl2-dev
+  libssl-dev
+  libjpeg-dev
 ]
 
 default[:openerp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?

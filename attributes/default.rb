@@ -16,6 +16,8 @@ default[:ak_tools][:apt_packages] += %w[
   libsasl2-dev
   libssl-dev
   libjpeg-dev
+  libxext6
+  fontconfig
 ]
 
 default[:erp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?

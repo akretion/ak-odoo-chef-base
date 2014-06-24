@@ -4,7 +4,7 @@ include_recipe "ak-odoo-chef-base::default"
 
 [:dev].each do |user| #FIXME [:super_user, :prod, :dev] ?
 
-  unix_user = node[:openerp][user][:unix_user]
+  unix_user = node[:erp][user][:unix_user]
 
   execute "ssh-keygen -f /home/#{unix_user}/.ssh/id_rsa -N ''" do
     creates "/home/#{unix_user}/.ssh/id_rsa"
@@ -16,11 +16,11 @@ include_recipe "ak-odoo-chef-base::default"
     #action "create_if_missing" #FIX me
     action "create" #check if this code is executed only if the node info have been modified
     owner unix_user
-    group node[:openerp][:group_unix]
+    group node[:erp][:group_unix]
     mode 00600
     source "authorized_keys.erb"
     not_if {unix_user == 'vagrant'}
-    variables :ssh_key_list => "#{node[:openerp][user][:authorized_ssh_key]}\n#{node[:openerp][user][:extra_authorized_ssh_key]}"
+    variables :ssh_key_list => "#{node[:erp][user][:authorized_ssh_key]}\n#{node[:erp][user][:extra_authorized_ssh_key]}"
   end
 
 end

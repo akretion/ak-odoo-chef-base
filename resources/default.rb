@@ -2,15 +2,15 @@ require "chef/resource/scm"
 
 class ::Chef
   class Resource
-    class ErpCodebase < ::Chef::Resource::Scm
+    class Buildout < ::Chef::Resource::Scm
 
       def initialize(name, run_context=nil)
         super
         #@revision = 'last:1' if @revision == "HEAD" && provider is bzr
-        @resource_name = :erp_codebase
+        @resource_name = :buildout
         @scm_provider ||= Chef::Provider::Git
         @additional_remotes = Hash[] # required by git
-        @provider = ::Chef::Provider::ErpCodebase
+        @provider = ::Chef::Provider::Buildout
       end
 
       def is_virtualenv(arg=nil)

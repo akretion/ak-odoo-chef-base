@@ -11,6 +11,7 @@ end
 if node[:platform_version].to_f >= 14.04
   node.set[:postgresql][:version] = "9.3" # we will always want 9.3 if distro package available, right?
   package "postgresql-9.3"
+  package "postgresql-server-dev-9.3"
   
 elsif node[:postgresql][:version] == "9.2" && node[:platform_version].to_f > 11.10
 
@@ -30,18 +31,18 @@ elsif node[:postgresql][:version] == "9.2" && node[:platform_version].to_f > 11.
     notifies :install, "package[postgresql-9.2]", :immediately
   end
 
-  package "postgresql-9.2" do
-    action :install
-  end
+  package "postgresql-9.2"
+  package "postgresql-server-dev-9.2"
 
 else
   package "postgresql"
+  package "postgresql-server-dev"
 end
 
 service "postgresql" do
   action [:start]
 end
 
-postgresql_user node[:openerp][:dev][:unix_user] do
+postgresql_user node[:erp][:dev][:unix_user] do
   privileges :createdb => true, :inherit => true, :login => true
 end

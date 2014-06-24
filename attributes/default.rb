@@ -18,15 +18,15 @@ default[:ak_tools][:apt_packages] += %w[
   libjpeg-dev
 ]
 
-default[:openerp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?
-default[:openerp][:pip_packages_extra] = [] # easy to customize with Chef Solo
-default[:openerp][:pip_packages_env] = [] # environment wise python packages
+default[:erp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?
+default[:erp][:pip_packages_extra] = [] # easy to customize with Chef Solo
+default[:erp][:pip_packages_env] = [] # environment wise python packages
 
 default[:simple_unix_user] = false
-default[:openerp][:group_unix]                            = simple_unix_user || "erp_group"
-default[:openerp][:dev][:unix_user]                       = simple_unix_user || (node[:vagrant] && "vagrant" || "erp_dev")
-default[:openerp][:dev][:authorized_ssh_key]              = ""
+default[:erp][:group_unix]                            = simple_unix_user || "erp_group"
+default[:erp][:dev][:unix_user]                       = simple_unix_user || (node[:vagrant] && "vagrant" || "erp_dev")
+default[:erp][:dev][:authorized_ssh_key]              = ""
 
 default[:postgresql][:install] = "distro"
 default[:postgresql][:version] = "9.2"
-default[:postgresql][:pg_ident] = {"openerp" => {openerp[:dev][:unix_user] => openerp[:dev][:unix_user]}}
+default[:postgresql][:pg_ident] = {"openerp" => {erp[:dev][:unix_user] => erp[:dev][:unix_user]}}

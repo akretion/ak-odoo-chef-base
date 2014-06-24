@@ -74,16 +74,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
  
   config.vm.provision :chef_solo do |chef|
 #    chef.log_level = :debug
-    chef.add_recipe 'ak-openerp-base::default'
+    chef.add_recipe 'ak-odoo-chef-base::buildout'
     chef.json = {
         :postgresql => {:version => '9.2'},
 #        :ak_tools => {:apt_packages_extra => ['libreoffice']},
-        :openerp => {
+        :erp => {
           :super_user => {"unix_user" => "vagrant"},
           :prod => {"unix_user" => "vagrant"},
           :dev => {"unix_user" => "vagrant"},
-#          :dev_servers => {:dev1 => user@host:path}
-#          :demo_servers => {:demo1 => {:server => 'lp:~ocb/ocb-server/rs-ocb-70', :addons => 'lp:~ocb/ocb-addons/rs-ocb-70', :web => 'lp:ocb-web'}}
+          :buildouts => {:dev1 => nil}
+#          :buildouts => {:dev1 => user@host:path}
         },
       }
   end

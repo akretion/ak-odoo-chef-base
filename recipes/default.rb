@@ -36,5 +36,4 @@ end
 
 #chef_gem "ooor"
 
-include_recipe "ak-odoo-chef-base::demo_servers"
 include_recipe "ak-odoo-chef-base::dev_servers"

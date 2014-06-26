@@ -36,7 +36,7 @@ elsif node[:postgresql][:version] == "9.2" && node[:platform_version].to_f > 11.
 
 else
   package "postgresql"
-  package "postgresql-server-dev"
+  package "postgresql-server-dev-all"
 end
 
 service "postgresql" do

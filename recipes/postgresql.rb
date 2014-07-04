@@ -1,3 +1,5 @@
+# Simple recipe to install distro Postgresql, possibly with a ppa backport
+
 unless ENV['LANG'].end_with?("UTF-8") || node[:simple_unix_user]
   lang = ENV['LANG'] && ENV['LANG'].split(".")[0] || "en_US"
   lang = "en_US" if lang.empty?
@@ -8,10 +10,10 @@ unless ENV['LANG'].end_with?("UTF-8") || node[:simple_unix_user]
   `dpkg-reconfigure locales`
 end
 
-if node[:platform_version].to_f >= 14.04
+if node[:platform_version].to_f >= 14.04 && node[:postgresql][:version]
   node.set[:postgresql][:version] = "9.3" # we will always want 9.3 if distro package available, right?
-  package "postgresql-9.3"
-  package "postgresql-server-dev-9.3"
+  package "postgresql-#{node[:postgresql][:version]}"
+  package "postgresql-server-dev-#{node[:postgresql][:version]}"
   
 elsif node[:postgresql][:version] == "9.2" && node[:platform_version].to_f > 11.10
 

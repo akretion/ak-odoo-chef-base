@@ -9,7 +9,6 @@ recipe            "ak-odoo-chef-base::default", "Default"
 depends           "python"
 depends           "apt"
 depends           "ak-tools"
-depends           "ak-bzr"
 
 %w{ ubuntu }.each do |os|
   supports os

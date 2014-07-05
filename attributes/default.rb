@@ -30,7 +30,6 @@ default[:erp][:pip_packages_env] = []                 # environment wise Python 
 
 # ************************************* USERS
 
-default[:basic_usage] = true                          # false if this recipe is extended
 default[:simple_unix_user] = false                    # you may set it to your current unix user if not using virtualization
 default[:erp][:group_unix]                            = simple_unix_user || "erp_group"
 default[:erp][:dev][:unix_user]                       = simple_unix_user || (node[:vagrant] && "vagrant" || "erp_dev")
@@ -39,7 +38,7 @@ default[:erp][:dev][:authorized_ssh_key]              = ""
 
 # ************************************* POSTGRES
 
-default[:postgresql][:install] = "distro"
+default[:postgresql][:install] = "distro"             # set to false if you don't want Postgres installation
 
 
 case node['platform']

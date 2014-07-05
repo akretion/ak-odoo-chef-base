@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-#  config.berkshelf.enabled = true
+  # config.berkshelf.enabled = true
   # The path to the Berksfile to use with Vagrant Berkshelf
   # config.berkshelf.berksfile_path = "./Berksfile"
 
@@ -31,7 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       
   config.vm.host_name = "ak-openerp-base"
 
-  config.vm.box = "fgrehm/precise64-lxc"
+  config.vm.box = "fgrehm/trusty64-lxc"
 #  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
@@ -76,7 +76,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    chef.log_level = :debug
     chef.add_recipe 'ak-odoo-chef-base::buildout'
     chef.json = {
-        :postgresql => {:version => '9.2'},
+#        :postgresql => {:version => '9.2'},
 #        :ak_tools => {:apt_packages_extra => ['libreoffice']},
         :erp => {
           :super_user => {"unix_user" => "vagrant"},

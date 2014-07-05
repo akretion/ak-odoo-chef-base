@@ -1,6 +1,6 @@
 {
   "simple_unix_user": "youruser",
-  "openerp": {
+  "erp": {
   },
-  "run_list": [ "recipe[ak-openerp-base::default]" ]
+  "run_list": [ "recipe[ak-odoo-chef-base::buildout]" ]
 }

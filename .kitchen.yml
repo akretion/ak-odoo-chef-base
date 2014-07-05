@@ -1,28 +1,22 @@
----
-driver_plugin: vagrant
+driver_plugin: docker
 driver_config:
-  require_chef_omnibus: true
+  require_chef_omnibus: false
+  customize:
+    memory: 1024
 
 platforms:
-- name: ubuntu-12.04
-  driver_config:
-    box: canonical-ubuntu-12.04
-    box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
-    require_chef_omnibus: 11.4.4
-  run_list:
-  - recipe[apt]
+  - name: ubuntu-12.04
+    driver_config:
+      image: okapies/chef-solo
+      platform: ubuntu
+    run_list:
+    - recipe[apt]
 
 suites:
-- name: default
-  run_list:
-    - recipe[ak-openerp-base]
-  attributes:
-    postgresql:
-      version: 9.2
-    openerp:
-      super_user:
-        unix_user: vagrant
-      prod:
-        unix_user: vagrant
-      dev:
-        unix_user: vagrant 
+  - name: default
+    run_list:
+      - recipe[ak-odoo-chef-base]
+    attributes:
+
+provision_command:
+  - apt-get install telnet

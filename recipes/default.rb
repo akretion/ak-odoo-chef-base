@@ -16,14 +16,7 @@ group node[:erp][:group_unix]
 include_recipe "ak-odoo-chef-base::python"
 include_recipe "ak-odoo-chef-base::wkhtmltopdf"
 
-include_recipe "ak-bzr::default"
-
 if ::File.exist?("/home/#{node[:erp][:dev][:unix_user]}")
-  bzr_user_conf do
-    owner node[:erp][:dev][:unix_user] 
-    group node[:erp][:group_unix]
-  end
-
   unless node[:simple_unix_user]
     include_recipe "ak-odoo-chef-base::ssh_key"
     node.default[:ak_tools][:product_name] = "Akretion dev server for #{node[:simple_unix_user]}"

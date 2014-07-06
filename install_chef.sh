@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Kill possibly running Odoo server and unfinished Chef run on Vagrant
+sudo killall python
+#sudo killall chef-client
+
 command="wget -O - https://www.opscode.com/chef/install.sh | sudo bash"
 
 repo_list=(
@@ -32,11 +36,12 @@ else
     fi
 fi
 
-if [ ! -f "/vagrant/cookbooks/ak-odoo-chef-base/metadata.rb" ]
+if [ ! -f "/etc/chef-solo/cookbooks/cookbooks/ak-odoo-chef-base/metadata.rb" ]
 then
     echo "Download cookbooks"
     sudo apt-get install git -y
-    cd /tmp/vagrant-chef-1/chef-solo-1/cookbooks
+    mkdir -p /etc/chef-solo/cookbooks/cookbooks
+    cd /etc/chef-solo/cookbooks/cookbooks
     for repo in ${repo_list[*]}
     do
         echo "download cookbook from $repo"

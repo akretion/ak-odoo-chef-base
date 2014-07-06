@@ -31,6 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       
   config.vm.host_name = "ak-openerp-base"
 
+#  config.vm.box = "fgrehm/precise32-lxc"
   config.vm.box = "fgrehm/trusty64-lxc"
 #  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
@@ -70,21 +71,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.vm.share_folder("archive", "/opt/openerp/branch/", "/opt/openerp/branch/")
   #config.vm.share_folder("ssh", "~/.ssh", "~/.ssh")
 
-  config.vm.provision :shell, :path => "install_chef.sh"
- 
+  config.vm.provision :shell, path: "install_chef.sh"
+
   config.vm.provision :chef_solo do |chef|
 #    chef.log_level = :debug
+    chef.provisioning_path = "/etc/chef-solo"
     chef.add_recipe 'ak-odoo-chef-base::buildout'
     chef.json = {
-#        :postgresql => {:version => '9.2'},
-#        :ak_tools => {:apt_packages_extra => ['libreoffice']},
-        :erp => {
-          :super_user => {"unix_user" => "vagrant"},
-          :prod => {"unix_user" => "vagrant"},
-          :dev => {"unix_user" => "vagrant"},
-          :buildouts => {:dev1 => nil}
-#          :buildouts => {:dev1 => user@host:path}
+#        postgresql: {:version => '9.2'},
+#        ak_tools: {apt_packages_extra: ['libreoffice']},
+        erp: {
+          super_user:     {"unix_user" => "vagrant"},
+          prod:           {"unix_user" => "vagrant"},
+          dev:            {"unix_user" => "vagrant"},
+          buildouts:      {:dev1 => nil}
+#          buildouts:      {dev1: user@host:path}
         },
       }
   end
+
+  script = <<-SCRIPT
+    /etc/update-motd.d/51-cloudguest
+    echo ""
+    /usr/bin/python /home/vagrant/dev1/bin/start_openerp
+  SCRIPT
+
+  config.vm.provision "shell", inline: script, privileged: false
+
 end

@@ -1,8 +1,8 @@
 include_attribute "ak-tools"
 
 default[:ak_tools][:product_name] = "OpenERP Akretion demo/dev server!
-                                     \n Warning totally unsecure server! Not suited for production!
-                                     \nGet your OpenERP deployed by www.akretion.com for a professional experience"
+                                     \n    Warning! Unsecure server! Not suited for production!
+                                     \nFor a professional experience, get your OpenERP deployed by www.akretion.com"
 
 
 # ************************************** PACKAGES
@@ -10,6 +10,7 @@ default[:ak_tools][:product_name] = "OpenERP Akretion demo/dev server!
 default[:ak_tools][:apt_packages] += %w[
   python
   python-dev
+  bzr
   ghostscript
   poppler-utils
   libxml2-dev
@@ -22,8 +23,29 @@ default[:ak_tools][:apt_packages] += %w[
   fontconfig
 ]
 
+                                                      # quite stable python modules with C extensions
+                                                      # you can override and use buildout packages instead
+                                                      # but using distro packages saves us from compilation
+default[:ak_tools][:apt_python_packages] = %w[
+  python-pypdf
+  python-reportlab
+  python-yaml
+  python-ldap
+  python-pil
+]
 
-default[:erp][:pip_packages] = %w[PyYaml werkzeug unittest2 mock docutils gdata Jinja2 requests] #TODO pin versions?
+                                                      # you can override and use a buildout packages instead
+                                                      # use the buidlout configuration if you want a pinned version
+default[:erp][:pip_packages] = %w[                    
+  werkzeug
+  unittest2
+  mock
+  docutils
+  gdata
+  Jinja2
+  requests
+]
+
 default[:erp][:pip_packages_extra] = []               # easy to customize with Chef Solo
 default[:erp][:pip_packages_env] = []                 # environment wise Python packages
 

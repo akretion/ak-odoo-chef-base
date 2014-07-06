@@ -13,38 +13,43 @@ Main recipe
 
 ## Usages
 
-make sure you have ruby 1.9.3+ installed, ideally with rvm (else use sudo instead of rvmsudo in the following).
+First, for all methods you need to clone this repo:
 
-#### 1) with Vagrant and lxc
+    git clone https://github.com/akretion/ak-odoo-chef-base.git
+    cd ak-odoo-chef-base
 
+#### 1) with Vagrant and lxc (on Linux)
+
+* Make sure you have Vagrant installed:
+VirtualBox - native packages exist for most platforms and can be downloaded from the VirtualBox downloads [page](https://www.virtualbox.org/wiki/Downloads).
 * sudo apt-get install lxc
 * sudo apt-get install redir
-* install Vagrant 1.5+ from http://www.vagrantup.com/downloads.html
-* vagrant plugin install vagrant-lxc --plugin-version 1.0.0.alpha.1  #read more here https://github.com/fgrehm/vagrant-lxc
+* install the vagrant-lxc plugin:
 
-```
-git clone https://github.com/akretion/ak-openerp-base.git
-cd ak-openerp-base
-berks vendor cookbooks
-```
+    vagrant plugin install vagrant-lxc --plugin-version 1.0.0.alpha.2
 
-update the node attributes in the Vagrantfile file
+#read more here https://github.com/fgrehm/vagrant-lxc
 
-```
-vagrant up
-```
+in the repo folder, update the node attributes in the Vagrantfile or the buildout.cfg eventually
+
+    vagrant up
 
 done!
 
-#### 2) or on bare Ubuntu Linux
+#### 2) on Vagrant with the Virtualbox provider (Windows and old Linux distro)
 
-    git clone https://github.com/akretion/ak-openerp-base.git
-    cd ak-openerp-base
+TODO it's simple but I should ensure it works and document
+
+#### 3) or on bare Ubuntu Linux
+
+TODO the following isn't true since I dropped Berkshelf dependency. See if it's better to reintroduce Berkshelf
+or change the process instead.
+
     rvmsudo gem install berkshelf --no-ri --no-rdoc
     rvmsudo berks install --path /var/chef/cookbooks
 
-update the node attributes in node.json, specially the simple_unix_user param
+update the node attributes in dna.json, specially the simple_unix_user param
 
-    rvmsudo chef-solo -j node.json
+    rvmsudo chef-solo -j dna.json
 
 done!

@@ -26,13 +26,15 @@ VirtualBox - native packages exist for most platforms and can be downloaded from
 * sudo apt-get install redir
 * install the vagrant-lxc plugin:
 
-    vagrant plugin install vagrant-lxc --plugin-version 1.0.0.alpha.2
+```
+vagrant plugin install vagrant-lxc --plugin-version 1.0.0.alpha.2
+```
 
-#read more here https://github.com/fgrehm/vagrant-lxc
+you can read more here https://github.com/fgrehm/vagrant-lxc
 
-in the repo folder, update the node attributes in the Vagrantfile or the buildout.cfg eventually
+Finally, in the repo folder, update the node attributes in the Vagrantfile or the buildout.cfg eventually
 
-    vagrant up
+    vagrant up --provider=lxc
 
 done!
 

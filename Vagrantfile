@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #  config.vm.customize ["modifyvm", :id, "--cpus", 2]
 #  config.vm.customize ["modifyvm", :id, "--memory", 1024]
       
-  config.vm.host_name = "ak-openerp-base"
+  config.vm.host_name = "ak-odoo-chef-base"
 
 #  config.vm.box = "fgrehm/precise32-lxc"
   config.vm.box = "fgrehm/trusty64-lxc"

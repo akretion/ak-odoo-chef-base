@@ -92,7 +92,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   script = <<-SCRIPT
     /etc/update-motd.d/51-cloudguest
     echo ""
-    /usr/bin/python /home/vagrant/dev1/bin/start_openerp
+    /usr/bin/python /home/vagrant/vodoo/bin/start_openerp
   SCRIPT
 
   config.vm.provision "shell", inline: script, privileged: false

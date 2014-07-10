@@ -34,8 +34,6 @@ class Chef
       def action_sync
         if @new_resource.repository
           @scm_provider.action_sync()
-        else
-          boostrap_template_folder()
         end
 
         unless ::File.exist? "#{@new_resource.destination}/bootstrap.py"
@@ -61,29 +59,6 @@ class Chef
 
       def run_buildout
         system "cd #{@new_resource.destination} && su #{@new_resource.user} -c 'python bin/buildout'"
-      end
-
-      def boostrap_template_folder
-        user = @new_resource.user
-        grp = @new_resource.group
-
-        send :directory, @new_resource.destination do
-          owner user
-          group grp
-        end.run_action :create
-
-        send :cookbook_file, "#{@new_resource.destination}/buildout.base.80.cfg" do
-          source "buildout/buildout.base.80.cfg"
-          owner user
-          group grp
-        end.run_action :create
-
-        send :template, "#{@new_resource.destination}/buildout.cfg" do
-          owner user
-          group grp
-          mode 00777
-          source "buildout.cfg.erb"
-        end.run_action :create
       end
 
     end

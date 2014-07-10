@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #  config.vm.customize ["modifyvm", :id, "--cpus", 2]
 #  config.vm.customize ["modifyvm", :id, "--memory", 1024]
       
-  config.vm.host_name = "ak-odoo-chef-base"
+  config.vm.host_name = "vodoo"
 
 #  config.vm.box = "fgrehm/precise32-lxc"
   config.vm.box = "fgrehm/trusty64-lxc"
@@ -84,8 +84,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           super_user:     {"unix_user" => "vagrant"},
           prod:           {"unix_user" => "vagrant"},
           dev:            {"unix_user" => "vagrant"},
-          buildouts:      {:dev1 => nil}
-#          buildouts:      {dev1: user@host:path}
+          buildouts:      {"/home/vagrant/vodoo" => "https://github.com/akretion/voodoo.git"}
         },
       }
   end
